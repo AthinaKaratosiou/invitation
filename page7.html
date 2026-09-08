@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Answer</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="noise"></div>
+<div class="gold-glow final-glow"></div>
+<div id="particles"></div>
+
+<main class="screen">
+
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+
+    <div class="content choice-content">
+
+        <span class="eyebrow">
+            YOUR ANSWER
+        </span>
+
+        <h1 class="choice-title">
+            Θα είσαι εκεί;
+        </h1>
+
+        <p class="choice-subtitle">
+            Η επιλογή είναι δική σου.
+        </p>
+
+        <div class="choice-buttons">
+
+            <button
+                class="answer-button yes-button"
+                onclick="submitAnswer('yes')">
+
+                <span class="button-symbol">✦</span>
+
+                <span>
+                    Ναι,
+                    <small>θα είμαι.</small>
+                </span>
+
+            </button>
+
+
+            <button
+                class="answer-button no-button"
+                onclick="submitAnswer('no')">
+
+                <span>
+                    Δυστυχώς,
+                    <small>όχι.</small>
+                </span>
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="page-indicator">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span class="active"></span>
+    </div>
+
+</main>
+
+
+<div id="answerOverlay" class="answer-overlay">
+
+    <div class="answer-result">
+
+        <span id="answerIcon"></span>
+
+        <h2 id="answerTitle"></h2>
+
+        <p id="answerText"></p>
+
+        <div class="gold-divider"></div>
+
+        <small>
+            Πέμπτη • 20:30 • E7
+        </small>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
