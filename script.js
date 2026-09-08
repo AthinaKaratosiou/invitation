@@ -163,7 +163,7 @@ async function submitAnswer(answer) {
     ============================================== */
 
     const receivingEmail =
-        "ΒΑΛΕ_ΕΔΩ_ΤΟ_EMAIL_ΣΟΥ";
+        "karatosiouathina@gmail.com";
 
 
     const yesButton =
