@@ -4,39 +4,27 @@
 
 function createParticles() {
 
-    const container =
-        document.getElementById("particles");
+    const container = document.getElementById("particles");
 
     if (!container) return;
 
-
     for (let i = 0; i < 35; i++) {
 
-        const particle =
-            document.createElement("span");
+        const particle = document.createElement("span");
 
         particle.classList.add("particle");
-
 
         particle.style.left =
             Math.random() * 100 + "vw";
 
-
         particle.style.animationDuration =
             (8 + Math.random() * 12) + "s";
-
 
         particle.style.animationDelay =
             Math.random() * 10 + "s";
 
-
-        particle.style.opacity =
-            Math.random() * 0.7;
-
-
         const size =
             1 + Math.random() * 2;
-
 
         particle.style.width =
             size + "px";
@@ -44,14 +32,11 @@ function createParticles() {
         particle.style.height =
             size + "px";
 
-
         container.appendChild(particle);
     }
 }
 
-
 createParticles();
-
 
 
 /* =================================================
@@ -60,24 +45,17 @@ createParticles();
 
 let navigating = false;
 
-
 function goNext(screen) {
 
     if (navigating) return;
 
-
-    const next =
-        screen.dataset.next;
-
+    const next = screen.dataset.next;
 
     if (!next) return;
 
-
     navigating = true;
 
-
     screen.classList.add("exit");
-
 
     setTimeout(() => {
 
@@ -85,7 +63,6 @@ function goNext(screen) {
 
     }, 750);
 }
-
 
 
 document
@@ -98,7 +75,6 @@ document
         );
 
     });
-
 
 
 /* =================================================
@@ -116,15 +92,10 @@ document.addEventListener(
         ) {
 
             const screen =
-                document.querySelector(
-                    ".next-screen"
-                );
-
+                document.querySelector(".next-screen");
 
             if (screen) {
-
                 goNext(screen);
-
             }
         }
 
@@ -132,13 +103,11 @@ document.addEventListener(
 );
 
 
-
 /* =================================================
    MOBILE SWIPE
 ================================================= */
 
 let touchStartX = 0;
-
 
 document.addEventListener(
     "touchstart",
@@ -158,32 +127,24 @@ document.addEventListener(
         const touchEndX =
             event.changedTouches[0].screenX;
 
-
         if (
             touchStartX - touchEndX > 50
         ) {
 
             const screen =
-                document.querySelector(
-                    ".next-screen"
-                );
-
+                document.querySelector(".next-screen");
 
             if (screen) {
-
                 goNext(screen);
-
             }
-
         }
 
     }
 );
 
 
-
 /* =================================================
-   SEND ANSWER
+   FORM SUBMIT
 ================================================= */
 
 let answerAlreadySent = false;
@@ -191,22 +152,18 @@ let answerAlreadySent = false;
 
 async function submitAnswer(answer) {
 
-    /*
-    ============================================
-    ΒΑΛΕ ΕΔΩ ΤΟ EMAIL ΣΟΥ
-    ============================================
-    */
-
-    const receivingEmail =
-        "karatosiouathina@gmail.com";
-
-
     if (answerAlreadySent) {
         return;
     }
 
 
-    answerAlreadySent = true;
+    /* ==============================================
+       ΒΑΛΕ ΕΔΩ ΤΟ EMAIL ΣΟΥ
+       ΧΩΡΙΣ ΚΕΝΑ
+    ============================================== */
+
+    const receivingEmail =
+        "ΒΑΛΕ_ΕΔΩ_ΤΟ_EMAIL_ΣΟΥ";
 
 
     const yesButton =
@@ -219,10 +176,11 @@ async function submitAnswer(answer) {
         document.getElementById("sendingStatus");
 
 
+    /* Κλειδώνουμε προσωρινά τα κουμπιά */
+
     if (yesButton) {
         yesButton.disabled = true;
     }
-
 
     if (noButton) {
         noButton.disabled = true;
@@ -239,18 +197,19 @@ async function submitAnswer(answer) {
     }
 
 
-
-    /* -----------------------------------------
-       Η ΑΠΑΝΤΗΣΗ ΠΟΥ ΘΑ ΛΑΒΕΙΣ
-    ----------------------------------------- */
-
     const answerMessage =
         answer === "yes"
             ? "ΝΑΙ, ΘΑ ΕΙΜΑΙ ❤️"
             : "ΔΥΣΤΥΧΩΣ, ΟΧΙ";
 
 
-    const now =
+    const subjectMessage =
+        answer === "yes"
+            ? "❤️ ΝΑΙ — Απάντηση στην πρόσκληση"
+            : "Απάντηση στην πρόσκληση — ΟΧΙ";
+
+
+    const dateAnswered =
         new Date().toLocaleString(
             "el-GR",
             {
@@ -260,69 +219,150 @@ async function submitAnswer(answer) {
         );
 
 
-
-    /* -----------------------------------------
-       FORMSUBMIT
-    ----------------------------------------- */
-
     try {
 
-        const response =
-            await fetch(
+        const response = await fetch(
 
-                "https://formsubmit.co/ajax/" +
-                receivingEmail,
+            "https://formsubmit.co/ajax/" +
+            encodeURIComponent(receivingEmail),
 
-                {
+            {
 
-                    method: "POST",
+                method: "POST",
 
-                    headers: {
+                headers: {
 
-                        "Content-Type":
-                            "application/json",
+                    "Content-Type":
+                        "application/json",
 
-                        "Accept":
-                            "application/json"
+                    "Accept":
+                        "application/json"
 
-                    },
+                },
+
+                body: JSON.stringify({
+
+                    _subject:
+                        subjectMessage,
+
+                    _template:
+                        "table",
+
+                    Απάντηση:
+                        answerMessage,
+
+                    Εκδήλωση:
+                        "Ραντεβού στο E7",
+
+                    Ημερομηνία:
+                        "Πέμπτη, 10 Σεπτεμβρίου 2026",
+
+                    Ώρα:
+                        "20:30",
+
+                    Μέρος:
+                        "E7 • Πειραιάς",
+
+                    "Η απάντηση στάλθηκε":
+                        dateAnswered,
+
+                    _url:
+                        window.location.href
+
+                })
+
+            }
+
+        );
 
 
-                    body: JSON.stringify({
+        /*
+        ===========================================
+        ΠΡΟΣΠΑΘΟΥΜΕ ΝΑ ΔΙΑΒΑΣΟΥΜΕ ΤΗΝ ΑΠΑΝΤΗΣΗ
+        ===========================================
+        */
 
-                        _subject:
-                            "💌 Νέα απάντηση στην πρόσκληση",
+        let data = {};
 
-                        Απάντηση:
-                            answerMessage,
+        try {
 
-                        Ημερομηνία:
-                            "Πέμπτη, 10 Σεπτεμβρίου 2026",
+            data = await response.json();
 
-                        Ώρα:
-                            "20:30",
+        }
 
-                        Μέρος:
-                            "E7 • Πειραιάς",
+        catch (jsonError) {
 
-                        "Ώρα απάντησης":
-                            now
-
-                    })
-
-                }
-
+            console.log(
+                "No JSON returned:",
+                jsonError
             );
 
+        }
 
-        const data =
-            await response.json();
 
+        console.log(
+            "FormSubmit HTTP status:",
+            response.status
+        );
 
         console.log(
             "FormSubmit response:",
             data
         );
+
+
+        /*
+        ===========================================
+        ΑΝ Η ΥΠΗΡΕΣΙΑ ΕΠΙΣΤΡΕΨΕ ERROR
+        ===========================================
+        */
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "HTTP Error " +
+                response.status
+            );
+
+        }
+
+
+        if (
+            data &&
+            data.success === false
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Η υπηρεσία απέρριψε την αποστολή."
+            );
+
+        }
+
+
+        /*
+        ===========================================
+        SUCCESS
+        ===========================================
+        */
+
+        answerAlreadySent = true;
+
+
+        if (sendingStatus) {
+
+            sendingStatus.innerHTML =
+                "Η απάντηση καταχωρήθηκε ✓";
+
+        }
+
+
+        setTimeout(() => {
+
+            showAnswerResult(answer);
+
+        }, 650);
 
     }
 
@@ -330,33 +370,44 @@ async function submitAnswer(answer) {
     catch (error) {
 
         console.error(
-            "Σφάλμα αποστολής:",
+            "FORM SUBMIT ERROR:",
             error
         );
 
+
+        answerAlreadySent = false;
+
+
+        /*
+        Ξαναενεργοποιούμε τα κουμπιά
+        ώστε να μπορεί να ξαναδοκιμάσει.
+        */
+
+        if (yesButton) {
+            yesButton.disabled = false;
+        }
+
+        if (noButton) {
+            noButton.disabled = false;
+        }
+
+
+        if (sendingStatus) {
+
+            sendingStatus.style.opacity = "1";
+
+            sendingStatus.innerHTML =
+                "Η απάντηση δεν στάλθηκε. Πάτησε ξανά.";
+
+        }
+
     }
-
-
-
-    /* -----------------------------------------
-       Ο ΠΑΡΑΛΗΠΤΗΣ ΔΕΝ ΒΛΕΠΕΙ ΤΗΝ ΑΠΟΣΤΟΛΗ
-    ----------------------------------------- */
-
-    if (sendingStatus) {
-
-        sendingStatus.style.opacity = "0";
-
-    }
-
-
-    showAnswerResult(answer);
 
 }
 
 
-
 /* =================================================
-   SHOW FINAL RESULT
+   FINAL RESULT
 ================================================= */
 
 function showAnswerResult(answer) {
@@ -366,18 +417,15 @@ function showAnswerResult(answer) {
             "answerOverlay"
         );
 
-
     const title =
         document.getElementById(
             "answerTitle"
         );
 
-
     const text =
         document.getElementById(
             "answerText"
         );
-
 
     const icon =
         document.getElementById(
@@ -385,36 +433,46 @@ function showAnswerResult(answer) {
         );
 
 
+    if (!overlay) return;
+
 
     if (answer === "yes") {
 
-        icon.innerHTML = "✦";
+        if (icon) {
+            icon.innerHTML = "✦";
+        }
 
+        if (title) {
+            title.innerHTML =
+                "Τότε είναι επίσημο.";
+        }
 
-        title.innerHTML =
-            "Τότε είναι επίσημο.";
-
-
-        text.innerHTML =
-            "Η Πέμπτη είναι δική μας.";
-
+        if (text) {
+            text.innerHTML =
+                "Η Πέμπτη είναι δική μας.";
+        }
 
         createCelebration();
 
     }
 
-
     else {
 
-        icon.innerHTML = "◇";
+        if (icon) {
+            icon.innerHTML = "◇";
+        }
 
+        if (title) {
+            title.innerHTML =
+                "Ίσως την επόμενη φορά.";
+        }
 
-        title.innerHTML =
-            "Ίσως την επόμενη φορά.";
+        if (text) {
 
+            text.innerHTML =
+                "Κάποιες προσκλήσεις αξίζει να γίνονται, ακόμη κι όταν η απάντηση είναι όχι.";
 
-        text.innerHTML =
-            "Κάποιες προσκλήσεις αξίζει να γίνονται, ακόμη κι όταν η απάντηση είναι όχι.";
+        }
 
     }
 
@@ -424,9 +482,8 @@ function showAnswerResult(answer) {
 }
 
 
-
 /* =================================================
-   YES CELEBRATION
+   CELEBRATION
 ================================================= */
 
 function createCelebration() {
@@ -443,31 +500,24 @@ function createCelebration() {
         sparkle.style.position =
             "fixed";
 
-
         sparkle.style.left =
             Math.random() * 100 + "vw";
-
 
         sparkle.style.top =
             Math.random() * 100 + "vh";
 
-
         sparkle.style.color =
             "#d2b06f";
-
 
         sparkle.style.fontSize =
             (5 + Math.random() * 15)
             + "px";
 
-
         sparkle.style.zIndex =
             "60";
 
-
         sparkle.style.pointerEvents =
             "none";
-
 
         sparkle.style.opacity =
             "0";
@@ -478,36 +528,24 @@ function createCelebration() {
             [
 
                 {
-
                     opacity: 0,
-
                     transform:
                         "scale(0)"
-
                 },
 
-
                 {
-
                     opacity: 1,
-
                     transform:
                         "scale(1.5)"
-
                 },
 
-
                 {
-
                     opacity: 0,
-
                     transform:
                         "translateY(-70px) scale(0)"
-
                 }
 
             ],
-
 
             {
 
@@ -515,10 +553,8 @@ function createCelebration() {
                     1800 +
                     Math.random() * 1700,
 
-
                 delay:
                     Math.random() * 900,
-
 
                 easing:
                     "ease-out"
